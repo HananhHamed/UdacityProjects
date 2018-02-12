@@ -4,14 +4,8 @@ class ATM:
         self.bank_name = bank_name
         self.withdrawal_list = []
 
-    '''create printdata function to help withdraw function'''
-    def printData(self , money , count):
-        while count > 0:
-            print "give " + str(money)
-            count = count - 1
-
     '''create withdraw function'''
-    def withdraw (self , request):
+    def withdraw (self , request ):
         print "Welcome to " + self.bank_name
         print "Current Balance = " + str(self.balance)
         print "========================="
@@ -20,17 +14,23 @@ class ATM:
             self.balance = self.balance - request
             self.withdrawal_list.append( request )
             i=0
+            count=0
             while i < len(moneyList):
                 if request >= moneyList[i]:
                     x = int(request / moneyList[i])
-                    self.printData(moneyList[i] , x)
+                    count = x
+                    while count > 0:
+                        print "give " + str(moneyList[i])
+                        count =count - 1
                     request = request - x * moneyList[i]
                     if request < moneyList[-1]:
                         print "give ", request
                         break
                     i = i + 1
-                else:
+                elif request > 0:
                     i = i + 1
+                else:
+                    print "More than 0 please!!!"
         else:
             print "Can't give you all this money !!"
 
