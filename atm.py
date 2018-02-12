@@ -27,12 +27,12 @@ class ATM:
                         print "give ", request
                         break
                     i = i + 1
-                elif request > 0:
+                else
                     i = i + 1
-                else:
-                    print "More than 0 please!!!"
-        else:
+        elif request > self.balance
             print "Can't give you all this money !!"
+        else:
+            print "More than 0 please!!!"
 
     '''create show_withdrawals function'''
     def show_withdrawals(self):
