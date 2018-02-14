@@ -2,13 +2,13 @@ from models import Member, Post
 from data_store import MemberStore, PostStore
 
 
-member1 = Member("Hassan", 35)
-member2 = Member("Kareem", 30)
+member1 = Member("Hassan", 35, 1)
+member2 = Member("Kareem", 30, 2)
 member1.show_member_data()
 
-post1 = Post()
-post2 = Post()
-post3 = Post()
+post1 = Post("abc", "abcdefghijklm", 1)
+post2 = Post("def", "nopqrstuvwxyz", 2)
+post3 = Post("ghi", "0123456789", 3)
 
 member_store = MemberStore()
 member_store.add(member1)

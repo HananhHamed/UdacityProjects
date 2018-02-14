@@ -10,7 +10,7 @@ class MemberStore:
 
     def add(self, member):
         #append member
-        members.append(member)
+        MemberStore.members.append(member)
 
     def update(self, member):
         #update member data
