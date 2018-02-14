@@ -1,5 +1,5 @@
-from models import Member
-from models import Post
+from models import Member, Post
+from data_store import MemberStore, PostStore
 
 
 member1 = Member("Hassan", 35)
@@ -10,7 +10,11 @@ post1 = Post()
 post2 = Post()
 post3 = Post()
 
-#add = "This is my first project..."
-#msg = "0123456789 o123456789 Hello from here..."
-#post1.add_new_post(add, msg)
-#post1.show_all_posts()
+member_store = MemberStore()
+member_store.add(member1)
+member_store.add(member2)
+
+post_store = PostStore()
+post_store.add(post1)
+post_store.add(post2)
+post_store.add(post3)
