@@ -6,9 +6,7 @@ class  Member:
 
 
 class Post:
-    def __init__(self, address, messages, id):
+    def __init__(self, address, message, id):
         self.address = address
         self.message = message
         self.id = id
-
-        
