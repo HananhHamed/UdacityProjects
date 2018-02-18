@@ -1,11 +1,11 @@
-class  Member:
+class  Member():
     def __init__(self, name , age ):
         self.name = name
         self.age = age
         self.id = 0
 
 
-class Post:
+class Post():
     def __init__(self, address, message, member_id):
         self.address = address
         self.message = message

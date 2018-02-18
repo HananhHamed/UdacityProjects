@@ -1,11 +1,11 @@
-class MemberStore:
+class MemberStore():
     members = []
-
+    last_id = 1
+    
     def get_all(self):
         #get all MemberStore
         return MemberStore.members
 
-    last_id = 1
     def add(self, member):
         member.id = MemberStore.last_id
         MemberStore.members.append(member)
@@ -18,8 +18,22 @@ class MemberStore:
                 return m
         return None
 
-    #def update(self, member):
+    def get_by_name(self, name):
+        #get member by name
+        search_result_list = []
+        for m in MemberStore.members:
+            if m.name == name:
+                search_result_list.append(m)
+        return search_result_list
+
+    def update(self, member):
         #update member data
+        m_id = member.id
+        for m in MemberStore.members:
+            if m.id == m_id:
+                m.name = member.name
+                m.age  = member.age
+                print "Data Updated Succesfully..."
 
     def delete(self, id):
         #delete member by id
@@ -37,8 +51,9 @@ class MemberStore:
         else:
             return False
 
-class PostStore:
+class PostStore():
     posts = []
+    last_id = 1
 
     def get_all(self):
         #get all Posts
@@ -51,15 +66,20 @@ class PostStore:
                 return p
         return None
 
-    last_id = 1
     def add(self, post):
         #add new post
         post.id = PostStore.last_id
         PostStore.posts.append(post)
         PostStore.last_id = PostStore.last_id + 1
 
-    #def update(self, post):
+    def update(self, post):
         #update post data
+        p_id = post.id
+        for p in PostStore.posts:
+            if p.id == p_id:
+                 p.address = post.address
+                 p.message = post.message
+                 print "Post Edited successfully..."
 
     def delete(self, id):
         #delete post by id
