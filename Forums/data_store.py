@@ -1,7 +1,7 @@
 class MemberStore():
     members = []
     last_id = 1
-    
+
     def get_all(self):
         #get all MemberStore
         return MemberStore.members
@@ -13,7 +13,8 @@ class MemberStore():
 
     def get_by_id(self, id):
         #get member by id
-        for m in MemberStore.members:
+        member_lst = self.get_all()
+        for m in member_lst:
             if m.id == id:
                 return m
         return None
@@ -21,24 +22,25 @@ class MemberStore():
     def get_by_name(self, name):
         #get member by name
         search_result_list = []
-        for m in MemberStore.members:
+        member_lst = self.get_all()
+        for m in member_lst:
             if m.name == name:
                 search_result_list.append(m)
         return search_result_list
 
     def update(self, member):
         #update member data
-        m_id = member.id
-        for m in MemberStore.members:
-            if m.id == m_id:
-                m.name = member.name
-                m.age  = member.age
+        member_id = member.id
+        member_lst = self.get_all()
+        for m in member_lst:
+            if m.id == member_id:
+                m = member
                 print "Data Updated Succesfully..."
 
     def delete(self, id):
         #delete member by id
         m = self.get_by_id(id)
-        if m != None:
+        if m is not None:
             MemberStore.members.remove(m)
             print "Member is deleted successfully..."
         else:
@@ -46,7 +48,7 @@ class MemberStore():
 
     def entity_exists(self, member):
         #check if an entity exists in store
-        if self.get_by_id(member.id) != None:
+        if self.get_by_id(member.id) is not None:
             return True
         else:
             return False
@@ -61,7 +63,8 @@ class PostStore():
 
     def get_by_id(self, id):
         #get post by id
-        for p in PostStore.posts:
+        post_lst = self.get_all()
+        for p in post_lst:
             if p.id == id:
                 return p
         return None
@@ -74,9 +77,10 @@ class PostStore():
 
     def update(self, post):
         #update post data
-        p_id = post.id
-        for p in PostStore.posts:
-            if p.id == p_id:
+        post_id = post.id
+        post_lst = self.get_all()
+        for p in post_lst:
+            if p.id == post_id:
                  p.address = post.address
                  p.message = post.message
                  print "Post Edited successfully..."
@@ -84,7 +88,7 @@ class PostStore():
     def delete(self, id):
         #delete post by id
         p = self.get_by_id(id)
-        if p != None:
+        if p is not None:
             PostStore.posts.remove(p)
             print "Post is deleted successfully..."
         else:
@@ -92,7 +96,7 @@ class PostStore():
 
     def entity_exists(self, post):
         #check if an entity exists in store
-        if self.get_by_id(post.id) != None:
+        if self.get_by_id(post.id) is not None:
             return True
         else:
             return False
