@@ -1,3 +1,4 @@
+import itertools
 class MemberStore():
     members = []
     last_id = 1
@@ -21,20 +22,16 @@ class MemberStore():
 
     def get_by_name(self, name):
         #get member by name
-        search_result_list = []
         member_lst = self.get_all()
-        for m in member_lst:
-            if m.name == name:
-                search_result_list.append(m)
-        return search_result_list
+        return (m for m in member_lst if m.name == name)
 
     def update(self, member):
         #update member data
         member_id = member.id
         member_lst = self.get_all()
-        for m in member_lst:
+        for i, m in enumerate(member_lst):
             if m.id == member_id:
-                m = member
+                member_lst[i] = member
                 print "Data Updated Succesfully..."
 
     def delete(self, id):
@@ -52,6 +49,28 @@ class MemberStore():
             return True
         else:
             return False
+
+    def get_members_with_posts(self, all_posts):
+        #get all members but each member with all his posts
+        members = self.get_all()
+        # I tried to use two ideas for writing the write code but unfortinately with no use! both of them have errors
+
+        #===the first idea using generation expression which is less efficient==========
+        return m.posts(p for m in members for p in all_posts if p.member_id == m.id)
+
+        #====the second idea using iterration which is more efficient===================
+        #for m, p in itertools.product(members, all_posts):
+            #if p.member_id == m.id:
+                #m.posts.append(p)
+            #return m
+        #================================================================================
+    def getKey(self, member):
+        return member.id
+
+    def get_top_ten(self, all_posts):
+        members_with_post_list = self.get_members_with_posts(all_posts)
+        sorted(members_with_post_list, key = self.getKey)
+        return list(members_with_post_list)[0:2]
 
 class PostStore():
     posts = []
@@ -79,10 +98,9 @@ class PostStore():
         #update post data
         post_id = post.id
         post_lst = self.get_all()
-        for p in post_lst:
+        for i, p in enumerate(post_lst):
             if p.id == post_id:
-                 p.address = post.address
-                 p.message = post.message
+                 post_lst[i] = post
                  print "Post Edited successfully..."
 
     def delete(self, id):
