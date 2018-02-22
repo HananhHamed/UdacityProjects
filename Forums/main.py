@@ -60,11 +60,12 @@ def get_all_members_with_posts():
 
 
 def get_top_two():
+    print "***************************************"
     top_two_members = member_store.get_top_ten(post_store.get_all())
     for member_with_posts in top_two_members:
-        print member_with_posts +" has posts:"
+        print str(member_with_posts) +" has posts:"
         for post in member_with_posts.posts:
-            print "\t" + post
+            print "\t" + str(post)
 
 #Post functions=================================================================
 def create_posts():

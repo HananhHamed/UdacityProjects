@@ -52,25 +52,18 @@ class MemberStore():
 
     def get_members_with_posts(self, all_posts):
         #get all members but each member with all his posts
-        members = self.get_all()
-        # I tried to use two ideas for writing the write code but unfortinately with no use! both of them have errors
+        all_members = self.get_all()
+        for m, p in itertools.product(all_members, all_posts):
+            if m.id == p.member_id :
+                m.posts.append(p)
+        for m in all_members:
+            yield m
 
-        #===the first idea using generation expression which is less efficient==========
-        return m.posts(p for m in members for p in all_posts if p.member_id == m.id)
-
-        #====the second idea using iterration which is more efficient===================
-        #for m, p in itertools.product(members, all_posts):
-            #if p.member_id == m.id:
-                #m.posts.append(p)
-            #return m
         #================================================================================
-    def getKey(self, member):
-        return member.id
-
     def get_top_ten(self, all_posts):
         members_with_post_list = self.get_members_with_posts(all_posts)
-        sorted(members_with_post_list, key = self.getKey)
-        return list(members_with_post_list)[0:2]
+        sorted_lst = sorted(members_with_post_list, key=lambda p: len(p.posts), reverse=True)
+        return sorted_lst[:2]
 
 class PostStore():
     posts = []
