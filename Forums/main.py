@@ -39,7 +39,6 @@ def search_members_by_id(id):
     if member == None:
         print "No members found by this id!!!"
     return member
-    print "=" * 30
 
 def search_members_by_name(name):
     result_list = list(member_store.get_by_name(name))
@@ -60,7 +59,6 @@ def get_all_members_with_posts():
 
 
 def get_top_two():
-    print "***************************************"
     top_two_members = member_store.get_top_ten(post_store.get_all())
     for member_with_posts in top_two_members:
         print str(member_with_posts) +" has posts:"
@@ -110,38 +108,33 @@ def search_posts_by_id(id):
     if post == None:
         print "No members found by this id!!!"
     return post
-    print "=" * 30
 
 
 #check all functions results====================================================
 mList = create_members()
 member1, member2, member3 = mList
-
 add_members_to_store(mList)
-
 show_all_members()
 
 #update_member_data(member1)
 
 m = search_members_by_id(3)
 if(m != None):
-    print m.name
-    print m.age
+    print m
+print "=" * 30
 
 search_members_by_name("Kareem")
 
 pList = create_posts()
-
 add_posts_to_store(pList)
-
 show_all_posts()
 
 #update_post(post2)
 
 p = search_posts_by_id(2)
 if(p != None):
-    print p.address
-    print p.message
+    print p
+print "=" * 30
 
 get_all_members_with_posts()
 
