@@ -1,55 +1,68 @@
 import itertools, copy
 
-class MemberStore():
-    members = []
-    last_id = 1
+class BaseStore():
+    #The parent class for MemberStore and PostStore classes
+    def __init__(self, data_provider , last_id):
+        self._data_provider = data_provider
+        self._last_id = last_id
 
     def get_all(self):
-        #get all MemberStore
-        return MemberStore.members
+        #Return all objects from data store
+        return self._data_provider
 
-    def add(self, member):
-        member.id = MemberStore.last_id
-        MemberStore.members.append(member)
-        MemberStore.last_id = MemberStore.last_id + 1
+    def add(self, item_instance):
+        #add new item
+        item_instance.id = self._last_id
+        self._data_provider.append(item_instance)
+        self._last_id += 1
 
     def get_by_id(self, id):
-        #get member by id
-        member_lst = copy.deepcopy(self.get_all())
-        for m in member_lst:
-            if m.id == id:
-                return m
+        #get an item by its id
+        item_lst = copy.deepcopy(self.get_all())
+        for obj in item_lst:
+            if obj.id == id:
+                return obj
         return None
 
-    def get_by_name(self, name):
-        #get member by name
-        member_lst = copy.deepcopy(self.get_all())
-        return (m for m in member_lst if m.name == name)
-
-    def update(self, member):
-        #update member data
-        member_id = member.id
-        member_lst = self.get_all()
-        for i, m in enumerate(member_lst):
-            if m.id == member_id:
-                member_lst[i] = member
+    def update(self, item_instance):
+        #update an item
+        item_instance_id = item_instance.id
+        item_lst = copy.deepcopy(self.get_all())
+        for i, item in enumerate(item_lst):
+            if item.id == item_instance_id:
+                item_lst[i] = item_instance
                 print "Data Updated Succesfully..."
 
     def delete(self, id):
-        #delete member by id
-        m = self.get_by_id(id)
-        if m is not None:
-            MemberStore.members.remove(m)
+        #delete an item
+        item_instance = self.get_by_id(id)
+        if item_instance is not None:
+            self._data_provider.remove(item_instance)
             print "Member is deleted successfully..."
         else:
             print "This Member Is Already Not Found!!!"
 
-    def entity_exists(self, member):
-        #check if an entity exists in store
-        if self.get_by_id(member.id) is not None:
+    def entity_exists(self, item_instance):
+        #check if this item exists in data store or not
+        if self.get_by_id(item_instance.id) is not None:
             return True
         else:
             return False
+
+class MemberStore(BaseStore):
+    #Class represents a store for all Members
+    members = []
+    last_id = 1
+
+    def __init__(self):
+        BaseStore.__init__(self, MemberStore.members, MemberStore.last_id)
+
+    def get_by_name(self, name):
+        #get member by name
+        member_lst = copy.deepcopy(self.get_all())
+        for m in member_lst:
+            if m.name == name:
+                yield m
 
     def get_members_with_posts(self, all_posts):
         #get all members but each member with all his posts
@@ -62,52 +75,19 @@ class MemberStore():
 
     def get_top_ten(self, all_posts):
         members_with_post_list = self.get_members_with_posts(all_posts)
-        sorted_lst = sorted(members_with_post_list, key=lambda p: len(p.posts), reverse=True)
+        sorted_lst = sorted(members_with_post_list, key=lambda p: len(p.posts), reverse = True)
         return sorted_lst[:2]
 
-class PostStore():
+class PostStore(BaseStore):
+    #Class represents a store for all posts
     posts = []
     last_id = 1
 
-    def get_all(self):
-        #get all Posts
-        return PostStore.posts
+    def __init__(self):
+        BaseStore.__init__(self, PostStore.posts, PostStore.last_id)
 
-    def get_by_id(self, id):
-        #get post by id
-        post_lst = copy.deepcopy(self.get_all())
-        for p in post_lst:
-            if p.id == id:
-                return p
-        return None
-
-    def add(self, post):
-        #add new post
-        post.id = PostStore.last_id
-        PostStore.posts.append(post)
-        PostStore.last_id = PostStore.last_id + 1
-
-    def update(self, post):
-        #update post data
-        post_id = post.id
-        post_lst = self.get_all()
-        for i, p in enumerate(post_lst):
-            if p.id == post_id:
-                 post_lst[i] = post
-                 print "Post Edited successfully..."
-
-    def delete(self, id):
-        #delete post by id
-        p = self.get_by_id(id)
-        if p is not None:
-            PostStore.posts.remove(p)
-            print "Post is deleted successfully..."
-        else:
-            print "This Post Is Already Not Found!!!"
-
-    def entity_exists(self, post):
-        #check if an entity exists in store
-        if self.get_by_id(post.id) is not None:
-            return True
-        else:
-            return False
+    def get_posts_by_date(self):
+        #get all posts sorted by date starting from the newest one to the oldest one
+        all_posts = self.get_all()
+        all_posts.sort(key=lambda p: p.date, reverse=True)
+        return all_posts

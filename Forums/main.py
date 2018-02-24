@@ -1,10 +1,10 @@
 from models import Member, Post
 from data_store import MemberStore, PostStore
-
+import time
 member_store = MemberStore()
 post_store = PostStore()
 
-#Members functions==============================================================
+'''Members functions====================================================='''
 def create_members():
     member1 = Member("Hassan", 35)
     member2 = Member("Kareem", 30)
@@ -40,6 +40,13 @@ def search_members_by_id(id):
         print "No members found by this id!!!"
     return member
 
+def is_member_exists(member):
+    if member_store.entity_exists(member):
+        print "Yes , This member data exists..."
+    else:
+        print "No, This member data not exists!!!"
+    print "=" * 30
+
 def search_members_by_name(name):
     result_list = list(member_store.get_by_name(name))
     if len(result_list) == 0:
@@ -65,19 +72,26 @@ def get_top_two():
         for post in member_with_posts.posts:
             print "\t" + str(post)
 
-#Post functions=================================================================
+'''Post functions========================================================'''
 def create_posts():
     post1 = Post("Agriculture", "Agriculture is amazing", mList[0].id)
+    time.sleep(5)
     post2 = Post("Engineering", "I love engineering", mList[0].id)
-
+    time.sleep(5)
     post3 = Post("Medicine", "Medicine is great", mList[1].id)
+    time.sleep(5)
     post4 = Post("Architecture", "Spectacular art", mList[1].id)
+    time.sleep(5)
     post5 = Post("Astronomy", "Space is awesome", mList[1].id)
-
+    time.sleep(5)
     post6 = Post("Geology", "Earth is our friend", mList[2].id)
+    time.sleep(5)
     post7 = Post("ComputerSci", "Our passion", mList[2].id)
+    time.sleep(5)
     post8 = Post("Algorithms", "Yeah, more of that", mList[2].id)
+    time.sleep(5)
     post9 = Post("Operating Systems", "Ewww", mList[2].id)
+
     return post1, post2, post3, post4, post5, post6, post7, post8, post9
 
 def add_posts_to_store(posts_list):
@@ -109,33 +123,73 @@ def search_posts_by_id(id):
         print "No members found by this id!!!"
     return post
 
+def is_post_exists(post):
+    if post_store.entity_exists(post):
+        print "Yes , This post data exists..."
+    else:
+        print "No, This post data not exists!!!"
+    print "=" * 30
 
-#check all functions results====================================================
+def get_posts_byDate():
+    posts = post_store.get_posts_by_date()
+    for p in posts:
+        print p
+    print "=" * 30
+
+'''check members functions results======================================='''
+#Add
 mList = create_members()
 member1, member2, member3 = mList
 add_members_to_store(mList)
+
+#get all
 show_all_members()
 
 #update_member_data(member1)
 
+#search by id
 m = search_members_by_id(3)
 if(m != None):
     print m
 print "=" * 30
 
+
+member4 = Member("Hanan", 32)
+is_member_exists(member1)
+is_member_exists(member4)
+
+#search by name
 search_members_by_name("Kareem")
 
+#delete_member(member3)
+
+#get all members with posts sorted by posts no. in a descending order
+get_all_members_with_posts()
+
+#get top two
+get_top_two()
+
+'''check posts functions results========================================='''
+#add posts
 pList = create_posts()
+post1, post2, post3, post4, post5, post6, post7, post8, post9 = pList
 add_posts_to_store(pList)
+
+#get all
 show_all_posts()
 
 #update_post(post2)
 
+#search by id
 p = search_posts_by_id(2)
 if(p != None):
     print p
 print "=" * 30
 
-get_all_members_with_posts()
+#entity_exists
+post10 = Post("Operating Systems", "Ewww", mList[2].id)
+is_post_exists(post9)
+is_post_exists(post10)
 
-get_top_two()
+
+get_posts_byDate()
