@@ -27,7 +27,7 @@ class BaseStore():
     def update(self, item_instance):
         #update an item
         item_instance_id = item_instance.id
-        item_lst = copy.deepcopy(self.get_all())
+        item_lst = self.get_all()
         for i, item in enumerate(item_lst):
             if item.id == item_instance_id:
                 item_lst[i] = item_instance
